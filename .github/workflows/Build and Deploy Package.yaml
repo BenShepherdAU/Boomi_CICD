@@ -1,0 +1,120 @@
+name: Build and Deploy Package
+on:
+  workflow_dispatch:
+    inputs:
+      compId:
+        description: 'Component Id'
+        required: true
+      compVer:
+        description: 'Component version'
+        required: true
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
+        
+  push:
+    branches:
+      - main
+    paths:
+      - 'InterfaceDefs/*.BuildDeploy'
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.ID2 }}
+  AWS_DEFAULT_REGION: ap-southeast-2
+  AWS_DEFAULT_OUTPUT: json
+      
+  ID: ${{ github.run_id }}-${{ github.run_attempt }}
+  
+jobs:
+  build_and_deploy:
+    runs-on: [self-hosted, linux, X64]
+    #DEBUG
+    environment:
+      name: "Dev"
+    #DEBUG
+    
+    steps:
+      - uses: actions/checkout@v3      
+      - name: Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v37.5.2
+        
+      # Runs a set of commands using the runners shell
+      - name: Build
+        run: |
+          sudo apt-get install -y libxml2-utils jq
+          
+          BoomiAccount=${{ vars.BOOMI_ACCOUNT }}
+          BoomiUsername=${{ vars.BOOMI_USERNAME }}
+          API=${{ secrets.API }}
+          RepoURL=${{ github.server_url }}
+          RepoName=${{ github.repository }}
+          RepoPath=${RepoURL}/${RepoName}
+          GITUsername=${{ github.repository_owner }}
+          GITUseremail=${{ vars.EMAIL }}
+          CodeFolderXML=${{ vars.CODEFOLDER }}
+          POSTMAN=${{ secrets.POSTMAN }}
+
+          SONAR_HOME=${{ vars.SONAR_HOME }}
+          sonarURL=${{ vars.SONARHOSTURL }}
+          sonar=${{ secrets.SONARTOKEN }}
+          sonarToken=${{ secrets.SONARTOKENB64 }}
+          sonarProject=${{ vars.SONARPROJECTKEY }}
+          
+          _bot=${{ secrets.BOT }}
+          mkdir -p ${GITHUB_WORKSPACE}/tmp
+          
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            funcTestPostman=0
+            funcTestBDC=0
+            codeCheck=0
+            postmanInst=0
+            perfTest=0
+
+            #DEBUG
+            envName=$(grep '^targetEnv=' $file | cut -f2 -d'=')
+            listenerStatus=$(grep '^listenerStatus=' $file | cut -f2 -d'=')
+            #DEBUG
+
+            compId=$(grep '^componentId=' $file | cut -f2 -d'=')
+            compType=$(grep '^componentType=' $file | cut -f2 -d'=')
+            compVer=$(grep '^ver=' $file | cut -f2 -d'=')
+            compNotes=$(grep '^buildNotes=' $file | cut -f2 -d'=')
+            codeCheck=$(grep '^codeCheck=' $file | cut -f2 -d'=')
+
+            compCount=1
+            compCount=$(echo "$compId" | awk -F "," '{print NF-1}')
+            compCount=$((compCount + 1))
+
+            export WD=${GITHUB_WORKSPACE}/cli/scripts/
+            export WORKSPACE=${GITHUB_WORKSPACE}/cli/scripts/
+            export GITHUB_WORKSPACE
+
+            export SONAR_HOME sonarURL sonar sonarProject sonarToken
+
+            find ${GITHUB_WORKSPACE} -name *.sh -exec chmod 700 {} \;
+
+            source "${GITHUB_WORKSPACE}/cli/scripts/bin/propertiesCICD.sh" $BoomiAccount $BoomiUsername $API $RepoPath $GITUsername $GITUseremail $CodeFolderXML
+            source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
+
+            for (( _compIdx=1 ; _compIdx <= $compCount ; _compIdx++ )) ; do
+              _compId=$(echo $compId | cut -f $_compIdx -d",")
+              _compType=$(echo $compType | cut -f $_compIdx -d",")
+              "${GITHUB_WORKSPACE}/cli/scripts/initcrPackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
+
+              #DEBUG
+              _envId=${{ vars.envId }}
+              _checkDeployment=0
+              source "${GITHUB_WORKSPACE}/cli/scripts/initCheckPackage.sh" componentId=$_compId componentType=$_compType packageVersion=$compVer envId=$_envId codeCheck=$codeCheck checkDeployment=$_checkDeployment
+              echo "calling deployPackage (packageId: $packageId)"
+              "${GITHUB_WORKSPACE}/cli/scripts/initdeployPackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" env=$envName listenerStatus=$listenerStatus
+              #DEBUG
+
+              #echo baseFolder: $baseFolder
+              #if ($sonarCheck==1)
+              #then
+              #  "${GITHUB_WORKSPACE}/cli/scripts/bin/sonarinitcrPackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
+              #fi
+            done
+          done
