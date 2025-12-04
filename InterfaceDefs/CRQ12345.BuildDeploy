@@ -1,7 +1,7 @@
 #Component Details
 componentId=aa4d40f8-d095-4be5-95b6-3ce33c60db99,0f5ea79e-36b4-4c4d-9a0a-295d51145fe4
 componentType=Process
-ver=13
+ver=1
 buildNotes=Latest change demo
 targetEnv="Test Environment"
 listenerStatus=RUNNING
