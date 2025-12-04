@@ -65,4 +65,34 @@ jobs:
           _bot=${{ secrets.BOT }}
           mkdir -p ${GITHUB_WORKSPACE}/tmp
           
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            funcTestPostman=0
+            funcTestBDC=0
+            codeCheck=0
+            postmanInst=0
+            perfTest=0
 
+                        #DEBUG
+            envName=$(grep '^targetEnv=' $file | cut -f2 -d'=')
+            listenerStatus=$(grep '^listenerStatus=' $file | cut -f2 -d'=')
+            #DEBUG
+
+            compId=$(grep '^componentId=' $file | cut -f2 -d'=')
+            compType=$(grep '^componentType=' $file | cut -f2 -d'=')
+            compVer=$(grep '^ver=' $file | cut -f2 -d'=')
+            compNotes=$(grep '^buildNotes=' $file | cut -f2 -d'=')
+            codeCheck=$(grep '^codeCheck=' $file | cut -f2 -d'=')
+
+            compCount=1
+            compCount=$(echo "$compId" | awk -F "," '{print NF-1}')
+            compCount=$((compCount + 1))
+
+            export WD=${GITHUB_WORKSPACE}/cli/scripts/
+            export WORKSPACE=${GITHUB_WORKSPACE}/cli/scripts/
+            export GITHUB_WORKSPACE
+
+            export SONAR_HOME sonarURL sonar sonarProject sonarToken
+
+            find ${GITHUB_WORKSPACE} -name *.sh -exec chmod 700 {} \;
+            
+           done
