@@ -1,0 +1,10 @@
+#Component Details
+componentId=aa4d40f8-d095-4be5-95b6-3ce33c60db99
+componentType=Process
+ver=13
+buildNotes=Latest change demo
+targetEnv="Test Environment"
+listenerStatus=RUNNING
+
+#Code Quality
+codeCheck=0
