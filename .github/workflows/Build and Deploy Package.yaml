@@ -72,7 +72,7 @@ jobs:
             postmanInst=0
             perfTest=0
 
-                        #DEBUG
+            #DEBUG
             envName=$(grep '^targetEnv=' $file | cut -f2 -d'=')
             listenerStatus=$(grep '^listenerStatus=' $file | cut -f2 -d'=')
             #DEBUG
@@ -101,5 +101,7 @@ jobs:
               for (( _compIdx=1 ; _compIdx <= $compCount ; _compIdx++ )) ; do
                 _compId=$(echo $compId | cut -f $_compIdx -d",")
                 _compType=$(echo $compType | cut -f $_compIdx -d",")
+
+                "${GITHUB_WORKSPACE}/cli/scripts/initCreatePackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
               done
            done
