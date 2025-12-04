@@ -95,17 +95,21 @@ jobs:
 
             find ${GITHUB_WORKSPACE} -name *.sh -exec chmod 700 {} \;
 
+            `echo "${GITHUB_WORKSPACE}/cli/scripts/bin/propertiesCICD.sh" $BoomiAccount $BoomiUsername $API $RepoPath $GITUsername $GITUseremail $CodeFolderXML`
             source "${GITHUB_WORKSPACE}/cli/scripts/bin/propertiesCICD.sh" $BoomiAccount $BoomiUsername $API $RepoPath $GITUsername $GITUseremail $CodeFolderXML
+            `echo ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh`
             source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
 
             for (( _compIdx=1 ; _compIdx <= $compCount ; _compIdx++ )) ; do
               _compId=$(echo $compId | cut -f $_compIdx -d",")
               _compType=$(echo $compType | cut -f $_compIdx -d",")
+              `echo ${GITHUB_WORKSPACE}/cli/scripts/initCreatePackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML`
               "${GITHUB_WORKSPACE}/cli/scripts/initCreatePackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
 
               #DEBUG
               _envId=${{ vars.envId }}
               _checkDeployment=0
+              `echo "${GITHUB_WORKSPACE}/cli/scripts/initCheckPackage.sh" componentId=$_compId componentType=$_compType packageVersion=$compVer envId=$_envId codeCheck=$codeCheck checkDeployment=$_checkDeployment`
               source "${GITHUB_WORKSPACE}/cli/scripts/initCheckPackage.sh" componentId=$_compId componentType=$_compType packageVersion=$compVer envId=$_envId codeCheck=$codeCheck checkDeployment=$_checkDeployment
               echo "calling deployPackage (packageId: $packageId)"
               "${GITHUB_WORKSPACE}/cli/scripts/initdeployPackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" env=$envName listenerStatus=$listenerStatus
