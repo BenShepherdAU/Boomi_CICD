@@ -4,7 +4,7 @@ componentType=Process
 ver=1
 buildNotes=Latest change demo
 targetEnv="Test Environment"
-listenerStatus=PAUSED
+listenerStatus=RUNNING
 
 #Code Quality
 codeCheck=0
