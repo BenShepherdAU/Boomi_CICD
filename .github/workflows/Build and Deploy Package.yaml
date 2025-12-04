@@ -97,9 +97,9 @@ jobs:
             find ${GITHUB_WORKSPACE} -name *.sh -exec chmod 700 {} \;
 
             
-   #         source "${GITHUB_WORKSPACE}/cli/scripts/bin/propertiesCICD.sh" $BoomiAccount $BoomiUsername $API $RepoPath $GITUsername $GITUseremail $CodeFolderXML
+            source "${GITHUB_WORKSPACE}/cli/scripts/bin/propertiesCICD.sh" $BoomiAccount $BoomiUsername $API $RepoPath $GITUsername $GITUseremail $CodeFolderXML
             
-   #         source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
+            source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
 
    #         for (( _compIdx=1 ; _compIdx <= $compCount ; _compIdx++ )) ; do
    #           _compId=$(echo $compId | cut -f $_compIdx -d",")
