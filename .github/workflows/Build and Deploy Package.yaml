@@ -106,7 +106,7 @@ jobs:
                 _compId=$(echo $compId | cut -f $_compIdx -d",")
                 _compType=$(echo $compType | cut -f $_compIdx -d",")
                 
-               source "${GITHUB_WORKSPACE}/cli/scripts/initCreatePackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
+              "${GITHUB_WORKSPACE}/cli/scripts/initCreatePackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
               
               #DEBUG
               # _envId=${{ vars.envId }}
