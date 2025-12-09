@@ -99,18 +99,18 @@ jobs:
             source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
 
               _envId=${{ vars.envId }}
+              envId=$_envId
               _checkDeployment=0
 
               for (( _compIdx=1 ; _compIdx <= $compCount ; _compIdx++ )) ; do
                 _compId=$(echo $compId | cut -f $_compIdx -d",")
                 _compType=$(echo $compType | cut -f $_compIdx -d",")
-              
+                "${GITHUB_WORKSPACE}/cli/scripts/initCreatePackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
 
                source "${GITHUB_WORKSPACE}/cli/scripts/initCheckPackage.sh" componentId=$_compId componentType=$_compType packageVersion=$compVer envId=$_envId codeCheck=$codeCheck checkDeployment=$_checkDeployment
-              # echo "calling deployPackage (packageId: $packageId)"
-              # "${GITHUB_WORKSPACE}/cli/scripts/initdeployPackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" env=$envName listenerStatus=$listenerStatus
+               echo "calling deployPackage (packageId: $packageId)"
+               "${GITHUB_WORKSPACE}/cli/scripts/initdeployPackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" env=$envName listenerStatus=$listenerStatus
 
-              
-                "${GITHUB_WORKSPACE}/cli/scripts/initCreatePackage.sh" componentId=$_compId packageVersion=$compVer componentType=$_compType notes="$compNotes" extractComponentXmlFolder="$CodeFolderXML"
+
               done
            done
