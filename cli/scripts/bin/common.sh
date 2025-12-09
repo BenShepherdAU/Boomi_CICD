@@ -159,7 +159,7 @@ function callAPI {
    if [[ $ERROR -gt 0 ]]; then 
 	  export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
 		echoee "$ERROR_MESSAGE"
-	 return 255
+	 return $ERROR
    fi
  fi
  if [ "$VERBOSE" == "true" ]  
