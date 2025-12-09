@@ -34,7 +34,7 @@ function inputs {
    	   	if [ $KEY = "help" ]
    				then
     	 			usage
-     			return 255; 
+     			return 250; 
    		fi
 	   fi # end if value='NA'	
      done
@@ -47,7 +47,7 @@ function inputs {
     then
       echoee "Missing mandatory field:  ${i}"
       usage
-      return 255;
+      return 251;
     fi
    done
 
@@ -55,7 +55,7 @@ function inputs {
    if [[  ${authToken} != BOOMI_TOKEN.* ]]  
    then
    	echoee "Boomi platform authentication token is not valid. Please check https://help.boomi.com/bundle/integration/page/int-AtomSphere_API_Tokens_page.html"
-	return 255
+	return 252
    fi
 
 	if [ "${VERBOSE}" == "true" ]
@@ -132,7 +132,7 @@ function callAPI {
 	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
 	   export ERROR=251
 	   echoee "$ERROR_MESSAGE"
-	   return 251
+	   return 253
    fi
    export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
    if [[ $ERROR -gt 0 ]]; then 
@@ -153,13 +153,13 @@ function callAPI {
 	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
 	   export ERROR=251
 	   echoee "$ERROR_MESSAGE"
-	   return 251
+	   return 254
    fi
    export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
    if [[ $ERROR -gt 0 ]]; then 
 	  export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
 		echoee "$ERROR_MESSAGE"
-	 return 251
+	 return 255
    fi
  fi
  if [ "$VERBOSE" == "true" ]  
@@ -176,15 +176,15 @@ function getAPI {
   export ERROR=$(jq  -r . "${WORKSPACE}"/out.json 2>&1 > /dev/null)
    if [[ ! -z $ERROR ]]; then 
 	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
-	   export ERROR=251
+	   export ERROR=256
 	   echoee "$ERROR_MESSAGE"
-	   return 251
+	   return 256
    fi
   export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
   if [[ $ERROR -gt 0 ]]; then 
 	  export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
 		echoee "$ERROR_MESSAGE"
-	 return 251
+	 return 257
   fi
   if [ "$VERBOSE" == "true" ]  
   then 
