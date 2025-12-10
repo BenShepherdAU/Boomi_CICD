@@ -1,5 +1,6 @@
 #!/bin/bash
-source bin/common.sh
+#source bin/common.sh
+source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
 
 # mandatory arguments
 ARGUMENTS=(packageVersion notes) 
@@ -23,7 +24,7 @@ fi
 saveNotes="${notes}"
 saveTag="${tag}"
 
-source bin/createSinglePackage.sh "$@"
+source ${GITHUB_WORKSPACE}/cli/scripts/bin/createSinglePackage.sh "$@"
 
 handleXmlComponents "${saveExtractComponentXmlFolder}" "${saveTag}" "${saveNotes}"
 
