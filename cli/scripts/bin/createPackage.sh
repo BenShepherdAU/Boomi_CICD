@@ -14,7 +14,8 @@ exportVariable=deploymentId
 inputs "$@"
 
 RC=$?
-echo RC : $RC
+echov "RC : $RC"
+
 if [ "$RC" -gt "0" ]
 then
         return 240;
