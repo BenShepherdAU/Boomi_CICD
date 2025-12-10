@@ -57,6 +57,7 @@ jobs:
           POSTMAN=${{ secrets.POSTMAN }}
 
           envId=${{ vars.envId }}
+          echo envId : $envId
 
           SONAR_HOME=${{ vars.SONAR_HOME }}
           sonarURL=${{ vars.SONARHOSTURL }}
