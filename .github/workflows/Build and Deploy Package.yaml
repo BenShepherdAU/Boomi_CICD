@@ -86,6 +86,7 @@ jobs:
             compVer=$(grep '^ver=' $file | cut -f2 -d'=')
             compNotes=$(grep '^buildNotes=' $file | cut -f2 -d'=')
             codeCheck=$(grep '^codeCheck=' $file | cut -f2 -d'=')
+            tag=$(grep '^tag=' $file | cut -f2 -d'=')
 
             compCount=1
             compCount=$(echo "$compId" | awk -F "," '{print NF-1}')
