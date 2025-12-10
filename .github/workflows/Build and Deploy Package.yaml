@@ -98,8 +98,6 @@ jobs:
             source "${GITHUB_WORKSPACE}/cli/scripts/bin/propertiesCICD.sh" $BoomiAccount $BoomiUsername $API $RepoPath $GITUsername $GITUseremail $CodeFolderXML
             source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
 
-              _envId=${{ vars.envId }}
-              envId=$_envId
               _checkDeployment=0
 
               for (( _compIdx=1 ; _compIdx <= $compCount ; _compIdx++ )) ; do
