@@ -12,7 +12,10 @@ URL=$baseURL/DeployedPackage/
 id=deploymentId
 exportVariable=deploymentId
 inputs "$@"
-if [ "$?" -gt "0" ]
+
+RC=$?
+echo RC : $RC
+if [ "$RC" -gt "0" ]
 then
         return 240;
 fi
