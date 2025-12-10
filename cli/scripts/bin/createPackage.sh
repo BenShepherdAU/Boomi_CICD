@@ -23,7 +23,7 @@ fi
 saveNotes="${notes}"
 saveTag="${tag}"
 
-$$WORKSPACE/bin/createSinglePackage.sh "$@"
+$WORKSPACE/bin/createSinglePackage.sh "$@"
 
 handleXmlComponents "${saveExtractComponentXmlFolder}" "${saveTag}" "${saveNotes}"
 
