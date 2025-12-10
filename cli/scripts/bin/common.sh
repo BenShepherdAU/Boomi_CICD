@@ -17,7 +17,7 @@ function inputs {
       	do
 			# remove all old values of the ARGUMENTS
         	case "$KEY" in
-              $i)  unset ${KEY}; export eval $KEY="${VALUE}" ; echo KEY $KEY VALUE $VALUE ;
+              $i)  unset ${KEY}; export eval $KEY="${VALUE}" ; echo KEY $KEY VALUE $VALUE ;;
               *)
         	esac
 	    done
