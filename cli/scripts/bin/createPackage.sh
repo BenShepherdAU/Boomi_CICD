@@ -14,7 +14,7 @@ exportVariable=deploymentId
 inputs "$@"
 if [ "$?" -gt "0" ]
 then
-        return 255;
+        return 240;
 fi
 createJSON
  
@@ -32,5 +32,5 @@ fi
 clean
 if [ "$ERROR" -gt "0" ]
 then
-   return 255;
+   return 241;
 fi
