@@ -56,7 +56,8 @@ jobs:
           CodeFolderXML=${{ vars.CODEFOLDER }}
           POSTMAN=${{ secrets.POSTMAN }}
 
-          envId=${{ vars.envId }}
+          #Shep: exporting environment id
+          export envId=${{ vars.envId }}
           echo envId : $envId
 
           SONAR_HOME=${{ vars.SONAR_HOME }}
