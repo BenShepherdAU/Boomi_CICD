@@ -104,7 +104,7 @@ function createJSON {
  		for i in "${ARGUMENTS[@]}"
   		do var=$var" -e \"s/\\\${${i}}/${!i}/\" ";
  		done
- 		var=$var" $JSON_FILE > \"${WORKSPACE}\"/tmp.json"
+ 		var=$var" $JSON_FILE > \"${WORKSPACE}/tmp.json\""
  		eval $var
 	fi
 }
