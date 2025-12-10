@@ -56,6 +56,8 @@ jobs:
           CodeFolderXML=${{ vars.CODEFOLDER }}
           POSTMAN=${{ secrets.POSTMAN }}
 
+          envId=${{ vars.envId }}
+
           SONAR_HOME=${{ vars.SONAR_HOME }}
           sonarURL=${{ vars.SONARHOSTURL }}
           sonar=${{ secrets.SONARTOKEN }}
@@ -99,8 +101,6 @@ jobs:
             source ${GITHUB_WORKSPACE}/cli/scripts/bin/common.sh
 
               _checkDeployment=0
-
-              envId=${{ vars.envId }}
               
               for (( _compIdx=1 ; _compIdx <= $compCount ; _compIdx++ )) ; do
                 _compId=$(echo $compId | cut -f $_compIdx -d",")
