@@ -1,40 +1,34 @@
 #!/bin/bash
-
-source $WD/bin/common.sh 
-# Query processattachment id before creating it
-echov "$@"
-source $WD/bin/queryDeployedPackage.sh "$@"
+source bin/common.sh
 
 # mandatory arguments
-ARGUMENTS=(envId packageId notes listenerStatus)
-JSON_FILE=$WD/json/createDeployedPackage.json
-URL=$baseURL/DeployedPackage/
-id=deploymentId
-exportVariable=deploymentId
+ARGUMENTS=(packageVersion notes) 
+OPT_ARGUMENTS=(componentId processName extractComponentXmlFolder componentVersion tag componentType)
+
 inputs "$@"
-
-RC=$?
-echov "RC : $RC"
-
-if [ "$RC" -gt "0" ]
+if [ "$?" -gt "0" ]
 then
-        return 240;
-fi
-createJSON
- 
-if [ "$deploymentId" == "null" ] || [ -z "$deploymentId" ]
-then 
-	callAPI
-exit
+    return 255;
 fi
 
-if [ "$deploymentId" != "null" ] || [ ! -z "$deploymentId" ]
-then 
-	echoi "Deployed package ${packageId} in env ${envId} with deploymentId ${deploymentId}."	
-fi
 
-clean
-if [ "$ERROR" -gt "0" ]
+if [ ! -z "${extractComponentXmlFolder}" ]
 then
-   return 241;
+ folder="${WORKSPACE}/${extractComponentXmlFolder}"
+ rm -rf ${folder}
+ unset extensionJson
+ saveExtractComponentXmlFolder="${extractComponentXmlFolder}"
+fi
+
+saveNotes="${notes}"
+saveTag="${tag}"
+
+source bin/createSinglePackage.sh "$@"
+
+handleXmlComponents "${saveExtractComponentXmlFolder}" "${saveTag}" "${saveNotes}"
+
+
+if [ "$ERROR" -gt 0 ]
+ then
+    return 255;
 fi
