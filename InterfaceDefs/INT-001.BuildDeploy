@@ -1,11 +1,11 @@
 #Component Details
 componentId=0f5ea79e-36b4-4c4d-9a0a-295d51145fe4
 componentType=Process
-ver=3
+ver=1
 buildNotes=Latest change demo
 targetEnv="Test Environment"
 listenerStatus=RUNNING
-tags=CRQ2468
+tag=CRQ2468
 
 #Code Quality
 codeCheck=0
