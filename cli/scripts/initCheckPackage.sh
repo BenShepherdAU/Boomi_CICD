@@ -42,4 +42,4 @@ if [ $codeCheck -eq 1 ]
 then
 	echo Checking code!...
         source "${GITHUB_WORKSPACE}/cli/scripts/initCheckRules.sh" packageId=$savePackageId componentId=$saveComponentId extractComponentXmlFolder=CodeReview
-fi          
+fi
