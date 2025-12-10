@@ -93,7 +93,7 @@ jobs:
             compCount=$((compCount + 1))
 
             export WD=${GITHUB_WORKSPACE}/cli/scripts/
-            export WORKSPACE=${GITHUB_WORKSPACE}/cli/scripts/
+            export WORKSPACE=${GITHUB_WORKSPACE}/cli/scripts
             export GITHUB_WORKSPACE
 
             export SONAR_HOME sonarURL sonar sonarProject sonarToken
