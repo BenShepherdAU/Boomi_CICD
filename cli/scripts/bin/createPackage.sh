@@ -27,8 +27,7 @@ source bin/createSinglePackage.sh "$@"
 
 handleXmlComponents "${saveExtractComponentXmlFolder}" "${saveTag}" "${saveNotes}"
 
-
-if [ "$ERROR" -gt 0 ]
+if [ "$?" -gt 0 ]
  then
     return 255;
 fi
