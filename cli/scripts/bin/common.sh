@@ -34,7 +34,7 @@ function inputs {
    	   	if [ $KEY = "help" ]
    				then
     	 			usage
-     			return 250; 
+     			return 230; 
    		fi
 	   fi # end if value='NA'	
      done
@@ -47,7 +47,7 @@ function inputs {
     then
       echoee "Missing mandatory field:  ${i}"
       usage
-      return 251;
+      return 231;
     fi
    done
 
@@ -55,7 +55,7 @@ function inputs {
    if [[  ${authToken} != BOOMI_TOKEN.* ]]  
    then
    	echoee "Boomi platform authentication token is not valid. Please check https://help.boomi.com/bundle/integration/page/int-AtomSphere_API_Tokens_page.html"
-	return 252
+	return 232
    fi
 
 	if [ "${VERBOSE}" == "true" ]
@@ -130,15 +130,15 @@ function callAPI {
    export ERROR=$(jq  -r . "${WORKSPACE}"/out.json 2>&1 > /dev/null)
    if [[ ! -z $ERROR ]]; then 
 	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
-	   export ERROR=251
+	   export ERROR=234
 	   echoee "$ERROR_MESSAGE"
-	   return 253
+	   return 234
    fi
    export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
    if [[ $ERROR -gt 0 ]]; then 
 	   export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
 	   echoee "$ERROR_MESSAGE"
-	   return 251
+	   return 235
    fi
  
    if [ ! -z "$exportVariable" ]
@@ -153,7 +153,7 @@ function callAPI {
 	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
 	   export ERROR=251
 	   echoee "$ERROR_MESSAGE"
-	   return 254
+	   return 236
    fi
    export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
    if [[ $ERROR -gt 0 ]]; then 
@@ -178,13 +178,13 @@ function getAPI {
 	   export ERROR_MESSAGE=`cat "${WORKSPACE}"/out.json` 
 	   export ERROR=256
 	   echoee "$ERROR_MESSAGE"
-	   return 256
+	   return 237
    fi
   export ERROR=`jq  -r . "${WORKSPACE}"/out.json  |  grep '"@type": "Error"' | wc -l`
   if [[ $ERROR -gt 0 ]]; then 
 	  export ERROR_MESSAGE=`jq -r .message "${WORKSPACE}"/out.json` 
 		echoee "$ERROR_MESSAGE"
-	 return 257
+	 return 238
   fi
   if [ "$VERBOSE" == "true" ]  
   then 
